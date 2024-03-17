@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 import "./App.css";
 
 import Main from "./components/Main";
 import Grader from "./components/Grader";
-import Results from "./components/Results";
+// import Results from "./components/Results";
 
 function App() {
   const [resInfo, setResInfo] = useState({
@@ -34,7 +35,8 @@ function App() {
 
   const onSaveInfo = () => {
     const { session, term, grade } = resInfo;
-    if (!session || !term || !grade) return;
+    if (!session || !term || !grade)
+      return enqueueSnackbar("Fill record", { varient: "error" });
     localStorage.setItem(
       "session-details",
       JSON.stringify({ session, term, grade })
@@ -44,13 +46,20 @@ function App() {
   function showPage() {
     switch (step) {
       case 0:
-        return <Main />;
+        return <Main resInfo={resInfo} />;
       case 1:
         return <Grader />;
     }
   }
 
-  return <>{showPage()}</>;
+  return (
+    <>
+      {showPage()}
+      <SnackbarProvider
+        anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+      />
+    </>
+  );
 }
 
 export default App;

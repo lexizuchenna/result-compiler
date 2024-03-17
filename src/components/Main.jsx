@@ -48,10 +48,10 @@ function Main({ resInfo, onChange, onInfoSave }) {
                       <div className="col-lg-6">
                         <div className="mb-3">
                           <label className="form-control-label" htmlFor="grade">
-                            ClassName
+                            Class
                           </label>
                           <input
-                            placeholder="ClassName"
+                            placeholder="Class"
                             type="text"
                             className="form-control-alternative form-control"
                             defaultValue={resInfo.grade}
