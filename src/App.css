@@ -383,6 +383,12 @@ hr {
 .align-items-center {
   align-items: center !important;
 }
+.justify-content-between {
+  justify-content: space-between !important;
+}
+.justify-content-center {
+  justify-content: center !important;
+}
 .shadow {
   box-shadow: 0 0 2rem #8898aa26 !important;
 }

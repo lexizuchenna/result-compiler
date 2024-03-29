@@ -1,193 +1,173 @@
-import { useState, useEffect } from "react";
-
-function Main({ resInfo, onChange, onInfoSave }) {
+function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
+  const grades = [
+    { name: "Grade 1", value: "grade-1" },
+    { name: "Grade 2", value: "grade-2" },
+    { name: "Grade 3", value: "grade-3" },
+    { name: "Grade 4", value: "grade-4" },
+    { name: "Grade 5", value: "grade-5" },
+  ];
+  const sex = [
+    { name: "Male", value: "male" },
+    { name: "Female", value: "female" },
+  ];
+  const terms = [
+    { name: "1st", value: "1st" },
+    { name: "2nd", value: "2nd" },
+    { name: "3rd", value: "3rd" },
+  ];
   return (
-    <div className="container">
-      <div className="container-fluid">
-        <div className="row">
-          <div className="order-xl-1 col-xl-8">
-            <div className="bg-secondary shadow card">
-              <div className="card-body">
-                <form className="">
-                  <h6 className="heading-small text-muted mb-4">
-                    Result information
-                  </h6>
-                  <div className="pl-lg-4">
-                    <div className="row">
-                      <div className="col-lg-6">
-                        <div className="mb-3">
-                          <label
-                            className="form-control-label"
-                            htmlFor="session"
-                          >
-                            Session
-                          </label>
-                          <input
-                            placeholder="Session"
-                            type="text"
-                            className="form-control-alternative form-control"
-                            defaultValue={resInfo.session}
-                            value={resInfo.session}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-lg-6">
-                        <div className="mb-3">
-                          <label className="form-control-label" htmlFor="term">
-                            Term
-                          </label>
-                          <input
-                            placeholder="Term"
-                            type="text"
-                            className="form-control-alternative form-control"
-                            defaultValue={resInfo.term}
-                            value={resInfo.term}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-lg-6">
-                        <div className="mb-3">
-                          <label className="form-control-label" htmlFor="grade">
-                            Class
-                          </label>
-                          <input
-                            placeholder="Class"
-                            type="text"
-                            className="form-control-alternative form-control"
-                            defaultValue={resInfo.grade}
-                            value={resInfo.grade}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-sm-12">
-                        <div className="text-center">
-                          <button
-                            type="button"
-                            className="my-4 btn btn-primary"
-                          >
-                            Save
-                          </button>
-                        </div>
-                      </div>
+    <div className="row justify-content-center">
+      <div className="order-xl-1 col-xl-8">
+        <div className="bg-secondary shadow card">
+          <div className="card-body">
+            <form className="">
+              <h6 className="heading-small text-muted mb-4">
+                Result information
+              </h6>
+              <div className="pl-lg-4">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="mb-3">
+                      <label className="form-control-label" htmlFor="session">
+                        Session
+                      </label>
+                      <input
+                        placeholder="Session"
+                        type="text"
+                        className="form-control-alternative form-control"
+                        name="session"
+                        defaultValue={resInfo.session}
+                        // value={resInfo.session}
+                        onChange={onChange}
+                      />
                     </div>
                   </div>
-                  <hr className="my-4" />
-                  <h6 className="heading-small text-muted mb-4">
-                    Student Data
-                  </h6>
-                  <div className="pl-lg-4">
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="mb-3 mb-3">
-                          <label className="text-sm">ClassName Work</label>
-                          <div className="input-group-alternative input-group">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text">
-                                <i className="undefined"></i>
-                              </span>
-                            </div>
-                            <input
-                              placeholder="ClassName Work"
-                              name="className-work"
-                              type="number"
-                              className="undefined form-control"
-                              value="0"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="mb-3 mb-3">
-                          <label className="text-sm">Assignment</label>
-                          <div className="input-group-alternative input-group">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text">
-                                <i className="undefined"></i>
-                              </span>
-                            </div>
-                            <input
-                              placeholder="Assignment"
-                              name="assignment"
-                              type="number"
-                              className="undefined form-control"
-                              value="0"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="mb-3 mb-3">
-                          <label className="text-sm">Mid Term Test</label>
-                          <div className="input-group-alternative input-group">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text">
-                                <i className="undefined"></i>
-                              </span>
-                            </div>
-                            <input
-                              placeholder="Mid Term Test"
-                              name="mid-term-test"
-                              type="number"
-                              className="undefined form-control"
-                              value="0"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="mb-3 mb-3">
-                          <label className="text-sm">Project</label>
-                          <div className="input-group-alternative input-group">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text">
-                                <i className="undefined"></i>
-                              </span>
-                            </div>
-                            <input
-                              placeholder="Project"
-                              name="project"
-                              type="number"
-                              className="undefined form-control"
-                              value="0"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="mb-3 mb-3">
-                          <label className="text-sm">Exam</label>
-                          <div className="input-group-alternative input-group">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text">
-                                <i className="undefined"></i>
-                              </span>
-                            </div>
-                            <input
-                              placeholder="Exam"
-                              name="exam"
-                              type="number"
-                              className="undefined form-control"
-                              value="0"
-                            />
-                          </div>
-                        </div>
-                      </div>
+                  <div className="col-lg-6">
+                    <div className="mb-3">
+                      <label className="text-sm">Terms</label>
+                      <select
+                        name="term"
+                        className="form-control-alternative form-control"
+                        onChange={onChange}
+                      >
+                        {terms.map((se) => (
+                          <option
+                            value={se.value}
+                            key={se.value}
+                            selected={se.value === resInfo.term}
+                          >
+                            {se.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
 
-                      <div className="col-sm-12">
-                        <div className="text-center">
-                          <button
-                            type="button"
-                            className="my-4 btn btn-primary"
+                  <div className="col-lg-6">
+                    <div className="mb-3">
+                      <label className="form-control-label" htmlFor="grade">
+                        Grade
+                      </label>
+
+                      <select
+                        name="grade"
+                        className="form-control-alternative form-control"
+                        onChange={onChange}
+                      >
+                        {grades.map((grade) => (
+                          <option
+                            value={grade.value}
+                            selected={grade.value === resInfo.grade}
+                            key={grade.value}
                           >
-                            Proceed
-                          </button>
-                        </div>
+                            {grade.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-sm-12">
+                    <div className="text-center">
+                      <button
+                        type="button"
+                        className="my-4 btn btn-primary"
+                        onClick={onSaveInfo}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr className="my-4" />
+              <h6 className="heading-small text-muted mb-4">Student Data</h6>
+              <div className="pl-lg-4">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="mb-3 mb-3">
+                      <label className="text-sm">Name</label>
+                      <div className="input-group-alternative input-group">
+                        <input
+                          placeholder="Enter Name"
+                          name="name"
+                          type="text"
+                          className="form-control"
+                          onChange={onChange}
+                          value={resInfo.name}
+                        />
                       </div>
                     </div>
                   </div>
-                </form>
+                  <div className="col-md-12">
+                    <div className="mb-3 mb-3">
+                      <label className="text-sm">Age</label>
+                      <div className="input-group-alternative input-group">
+                        <input
+                          placeholder="Enter Age"
+                          name="age"
+                          type="text"
+                          className="form-control"
+                          value={resInfo.age}
+                          onChange={onChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="mb-3 mb-3">
+                      <label className="text-sm">Sex</label>
+                      <select
+                        name="sex"
+                        className="form-control-alternative form-control"
+                        onChange={onChange}
+                      >
+                        {sex.map((se) => (
+                          <option
+                            value={se.value}
+                            key={se.value}
+                            selected={se.value === resInfo.sex}
+                          >
+                            {se.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="col-sm-12">
+                    <div className="text-center">
+                      <button
+                        type="button"
+                        className="my-4 btn btn-primary"
+                        onClick={onProceed}
+                      >
+                        Proceed
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

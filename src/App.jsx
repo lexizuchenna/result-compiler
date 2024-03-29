@@ -1,60 +1,45 @@
-import { useState, useEffect } from "react";
-import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import { SnackbarProvider } from "notistack";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import "./App.css";
 
-import Main from "./components/Main";
-import Grader from "./components/Grader";
-// import Results from "./components/Results";
+import CreateResult from "./pages/CreateResult";
+import ViewResults from "./pages/ViewResults";
+import Home from "./pages/Home";
 
 function App() {
-  const [resInfo, setResInfo] = useState({
-    session: "",
-    term: "",
-    grade: "",
-    name: "",
-    age: "",
-    sex: "",
-  });
-
-  const [studInfo, setStudInfo] = useState({ name: "", sex: "", age: "" });
-
-  const [step, setStep] = useState(0);
-  const [subjectData, setSubjectData] = useState([]);
-
-  const [subjects, setSubjects] = useState([]);
-
-  useEffect(() => {
-    const sessionDetails = JSON.parse(localStorage.getItem("session-details"));
-
-    if (sessionDetails) {
-      const { session, term, grade } = sessionDetails;
-      setResInfo((prev) => ({ ...prev, session, term, grade }));
-    }
-  }, []);
-
-  const onSaveInfo = () => {
-    const { session, term, grade } = resInfo;
-    if (!session || !term || !grade)
-      return enqueueSnackbar("Fill record", { varient: "error" });
-    localStorage.setItem(
-      "session-details",
-      JSON.stringify({ session, term, grade })
-    );
-  };
-
-  function showPage() {
-    switch (step) {
-      case 0:
-        return <Main resInfo={resInfo} />;
-      case 1:
-        return <Grader />;
-    }
-  }
-
   return (
     <>
-      {showPage()}
+      <div className="container">
+        <div className="container-fluid">
+          <Router>
+            <div className="row justify-content-center mb-3">
+              <div className="order-xl-1 col-xl-8">
+                <div className="bg-secondary shadow card">
+                  <div className="bg-white border-0 card-header">
+                    <div className="align-items-center justify-content-end row">
+                      <div className="text-left text-md col-4">
+                        <Link
+                          // type="button"
+                          className="btn btn-primary btn-md"
+                          to="/"
+                        >
+                          Go Home
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Routes>
+              <Route element={<Home />} exact path="/" />
+              <Route element={<CreateResult />} exact path="/create-result" />
+              <Route element={<ViewResults />} exact path="/view-results" />
+            </Routes>
+          </Router>
+        </div>
+      </div>
       <SnackbarProvider
         anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
       />
