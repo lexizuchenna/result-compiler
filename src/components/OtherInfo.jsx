@@ -1,10 +1,4 @@
-import { useState } from "react";
-import { enqueueSnackbar } from "notistack";
-
-function Grader({ data, setResStep, setResultData }) {
-  const [step, setStep] = useState(0);
-  const totalStep = data.subjects.length;
-
+function OtherInfo({ data, setResStep, setResultData }) {
   const onNext = () => {
     const results = JSON.parse(localStorage.getItem("results"));
 
@@ -14,29 +8,31 @@ function Grader({ data, setResStep, setResultData }) {
 
     localStorage.setItem("results", JSON.stringify(results));
 
-    if (step === totalStep - 1) return setResStep(2);
-
-    setStep((prev) => prev + 1);
+    setResStep((prev) => prev + 1);
   };
 
   const onBack = () => {
-    if (step === 0) return setResStep((prev) => prev - 1);
-    setStep((prev) => prev - 1);
+    return setResStep((prev) => prev - 1);
   };
 
   const onChange = ({ target }) => {
     const { name, value } = target;
-
-    const subjects = data.subjects;
-    const subject = subjects[step];
-
-    subject[name] = value;
-    subjects[step] = subject;
-
     console.log(data);
-
-    setResultData((prev) => ({ ...prev, subjects }));
+    setResultData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const comments = [
+    "VERY GOOD",
+    "REMARKABLE",
+    "EXCELLENT",
+    "AWESOME",
+    "AMAZING",
+    "SATISFACTORY",
+    "NEEDS IMPROVEMENT",
+    "EXCEPTIONAL",
+    "EXTRAORDINARY",
+  ];
+
   return (
     <div class="row justify-content-center">
       <div class="order-xl-1 col-xl-8">
@@ -61,20 +57,6 @@ function Grader({ data, setResStep, setResultData }) {
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="mb-3">
-                      <label class="form-control-label" for="subject">
-                        Subject
-                      </label>
-                      <input
-                        placeholder="Subject"
-                        disabled
-                        type="text"
-                        class="form-control-alternative form-control"
-                        value={data.subjects[step].name}
-                      />
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="mb-3">
                       <label class="form-control-label" for="name">
                         Name
                       </label>
@@ -89,89 +71,102 @@ function Grader({ data, setResStep, setResultData }) {
                 </div>
               </div>
               <hr class="my-4" />
-              <h6 class="heading-small text-muted mb-4">Result Grades</h6>
+              <h6 class="heading-small text-muted mb-4">Other result info</h6>
               <div class="pl-lg-4">
                 <div class="row">
-                  <div class="col-4">
+                  <div class="col-12 col-sm-6">
                     <div class="mb-3">
-                      <label class="text-sm">1st</label>
+                      <label class="text-sm">No of pupils</label>
                       <div class="input-group-alternative input-group">
                         <input
-                          placeholder="1st Assessment"
-                          name="test1"
+                          placeholder="No  of pupils"
+                          name="numberOfPupils"
                           type="number"
                           class="form-control"
-                          value={data.subjects[step].test1}
+                          value={data.numberOfPupils}
                           onChange={onChange}
                         />
                       </div>
                     </div>
                   </div>
-                  <div class="col-4">
+                  <div class="col-12 col-sm-6">
                     <div class="mb-3">
-                      <label class="text-sm">2st</label>
+                      <label class="text-sm">Next Term Begins</label>
                       <div class="input-group-alternative input-group">
                         <input
-                          placeholder="2nd Assessment"
-                          name="test2"
-                          type="number"
+                          placeholder="Next TermB egins"
+                          name="nextTermBegins"
+                          type="date"
                           class="form-control"
-                          value={data.subjects[step].test2}
+                          value={data.nextTermBegins}
                           onChange={onChange}
                         />
                       </div>
                     </div>
                   </div>
-                  <div class="col-4">
+                  <div class="col-12 col-sm-6">
                     <div class="mb-3">
-                      <label class="text-sm">Exam</label>
+                      <label class="text-sm">Class Teacher Comment</label>
+
+                      <select
+                        name="cTeacherComment"
+                        value={data.cTeacherComment}
+                        className="form-control-alternative form-control"
+                        onChange={onChange}
+                      >
+                        {comments.map((comm) => (
+                          <option
+                            value={comm}
+                            key={comm}
+                            selected={comm === data.cTeacherComment}
+                          >
+                            {comm}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                      <label class="text-sm">Head Teacher Comment</label>
+                      <select
+                        name="hTeacherComment"
+                        value={data.hTeacherComment}
+                        className="form-control-alternative form-control"
+                        onChange={onChange}
+                      >
+                        {comments.map((comm) => (
+                          <option
+                            value={comm}
+                            key={comm}
+                            selected={comm === data.hTeacherComment}
+                          >
+                            {comm}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                      <label class="text-sm">Teacher</label>
                       <div class="input-group-alternative input-group">
                         <input
-                          placeholder="Exam"
-                          name="exam"
-                          type="number"
+                          placeholder="Teacher"
+                          name="teacher"
+                          type="text"
                           class="form-control"
-                          value={data.subjects[step].exam}
+                          value={data.teacher}
                           onChange={onChange}
                         />
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-6 col-6">
-                    <div class="mb-3">
-                      <label class="text-sm">Project</label>
-                      <div class="input-group-alternative input-group">
-                        <input
-                          placeholder="Project"
-                          name="project"
-                          type="number"
-                          class="form-control"
-                          value={data.subjects[step].project}
-                          onChange={onChange}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-6">
-                    <div class="mb-3">
-                      <label class="text-sm">Average</label>
-                      <div class="input-group-alternative input-group">
-                        <input
-                          placeholder="Subject Average"
-                          name="average"
-                          type="number"
-                          class="form-control"
-                          value={data.subjects[step].average}
-                          onChange={onChange}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-12">
-                    <div class="text-center">
+                  <div className="col-sm-12">
+                    <div className="text-center">
                       <button
                         type="button"
-                        class="my-4 btn btn-primary"
+                        className="my-4 btn btn-primary"
                         onClick={onNext}
                       >
                         Next
@@ -188,4 +183,4 @@ function Grader({ data, setResStep, setResultData }) {
   );
 }
 
-export default Grader;
+export default OtherInfo;

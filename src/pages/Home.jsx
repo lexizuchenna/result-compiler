@@ -7,12 +7,12 @@ function Home() {
         <div className="bg-secondary shadow card">
           <div className="bg-white border-0 card-header">
             <div className="align-items-center justify-content-between row">
-              <div className="text-left text-md col-4">
+              <div className="text-md col-6">
                 <Link className="btn btn-dark btn-md" to="/create-result">
                   Create Result
                 </Link>
               </div>
-              <div className="text-left text-md col-4">
+              <div className="text-md col-6">
                 <Link className="btn btn-dark btn-md" to="/view-results">
                   View Results
                 </Link>

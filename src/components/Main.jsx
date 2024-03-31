@@ -1,4 +1,8 @@
+import { useLocation } from "react-router-dom";
+
 function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
+  const { pathname } = useLocation();
+
   const grades = [
     { name: "Grade 1", value: "grade-1" },
     { name: "Grade 2", value: "grade-2" },
@@ -42,9 +46,9 @@ function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-6">
+                  <div className="col-6">
                     <div className="mb-3">
-                      <label className="text-sm">Terms</label>
+                      <label className="text-sm">Term</label>
                       <select
                         name="term"
                         className="form-control-alternative form-control"
@@ -62,8 +66,7 @@ function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
                       </select>
                     </div>
                   </div>
-
-                  <div className="col-lg-6">
+                  <div className="col-6">
                     <div className="mb-3">
                       <label className="form-control-label" htmlFor="grade">
                         Grade
@@ -86,17 +89,21 @@ function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
                       </select>
                     </div>
                   </div>
-                  <div className="col-sm-12">
-                    <div className="text-center">
-                      <button
-                        type="button"
-                        className="my-4 btn btn-primary"
-                        onClick={onSaveInfo}
-                      >
-                        Save
-                      </button>
+                  {pathname.includes("/edit-result") ? (
+                    ""
+                  ) : (
+                    <div className="col-sm-12">
+                      <div className="text-center">
+                        <button
+                          type="button"
+                          className="my-4 btn btn-primary"
+                          onClick={onSaveInfo}
+                        >
+                          Save
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
               <hr className="my-4" />
@@ -104,7 +111,7 @@ function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
               <div className="pl-lg-4">
                 <div className="row">
                   <div className="col-md-12">
-                    <div className="mb-3 mb-3">
+                    <div className="mb-3">
                       <label className="text-sm">Name</label>
                       <div className="input-group-alternative input-group">
                         <input
@@ -118,8 +125,8 @@ function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-12">
-                    <div className="mb-3 mb-3">
+                  <div className="col-6">
+                    <div className="mb-3">
                       <label className="text-sm">Age</label>
                       <div className="input-group-alternative input-group">
                         <input
@@ -133,8 +140,8 @@ function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-12">
-                    <div className="mb-3 mb-3">
+                  <div className="col-6">
+                    <div className="mb-3">
                       <label className="text-sm">Sex</label>
                       <select
                         name="sex"
@@ -161,7 +168,9 @@ function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
                         className="my-4 btn btn-primary"
                         onClick={onProceed}
                       >
-                        Proceed
+                        {!pathname.includes("/edit-result")
+                          ? "Proceed"
+                          : "Next"}
                       </button>
                     </div>
                   </div>

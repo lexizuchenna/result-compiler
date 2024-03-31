@@ -3,6 +3,10 @@ import { enqueueSnackbar } from "notistack";
 
 import Main from "../components/Main";
 import Grader from "../components/Grader";
+import OtherInfo from "../components/OtherInfo";
+import AffectiveDomain from "../components/AffectiveDomain";
+import Psychomotor from "../components/Psychomotor";
+import Check from "../components/Check";
 
 function CreateResult() {
   const [resInfo, setResInfo] = useState({
@@ -13,7 +17,7 @@ function CreateResult() {
     age: "",
     sex: "male",
   });
-  const [id, setId] = useState(window.crypto.randomUUID());
+  const [id, setId] = useState(generateUUID());
 
   const [step, setStep] = useState(0);
   const [resultData, setResultData] = useState({});
@@ -48,6 +52,18 @@ function CreateResult() {
     }
   }, []);
 
+  function generateUUID() {
+    const s4 = () =>
+      Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+
+    return `${s4()}${s4()}-${s4()}-4${s4().substr(0, 3)}-y${s4().substr(
+      0,
+      3
+    )}-${s4()}${s4()}${s4()}`.toLowerCase();
+  }
+
   const onSaveInfo = () => {
     const { session, term, grade } = resInfo;
     if (!session || !term || !grade)
@@ -63,13 +79,13 @@ function CreateResult() {
     if (Object.values(resInfo).includes(""))
       return enqueueSnackbar("Fill all record", { variant: "error" });
 
-    setId();
     const subjects = gradeO_F.map((subject) => ({
       name: subject,
       test1: 0,
       test2: 0,
       exam: 0,
       project: 0,
+      average: 0,
     }));
 
     const data = {
@@ -81,6 +97,30 @@ function CreateResult() {
       age: resInfo.age,
       sex: resInfo.sex,
       subjects: subjects,
+      numberOfPupils: "",
+      nextTermBegins: "",
+      cTeacherComment: "",
+      hTeacherComment: "",
+      teacher: "",
+      aDomain: [
+        { name: "Attentiveness", value: "S" },
+        { name: "Honesty", value: "S" },
+        { name: "Neatness", value: "S" },
+        { name: "Politeness", value: "S" },
+        { name: "Punctuality", value: "S" },
+        { name: "Self control", value: "S" },
+        { name: "Obedience", value: "S" },
+        { name: "Reliability", value: "S" },
+        { name: "Relationship With Others", value: "S" },
+      ],
+      psychomotor: [
+        { name: "Handling of Tools", value: "S" },
+        { name: "Drawing /Painting", value: "S" },
+        { name: "Public Speaking", value: "S" },
+        { name: "Hand writing", value: "S" },
+        { name: "Speech Fluency", value: "S" },
+        { name: "Sports and Games", value: "S" },
+      ],
     };
 
     setResultData(data);
@@ -107,19 +147,75 @@ function CreateResult() {
     const { value, name } = target;
     setResInfo((prev) => ({ ...prev, [name]: value }));
   };
-  return step === 0 ? (
-    <Main
-      onSaveInfo={onSaveInfo}
-      resInfo={resInfo}
-      onChange={onChange}
-      onProceed={onProceed}
-    />
-  ) : (
-    <Grader
-      data={resultData}
-      setResStep={setStep}
-      setResultData={setResultData}
-    />
+
+  const onNew = () => {
+    setId(generateUUID());
+
+    const sessionDetails = JSON.parse(localStorage.getItem("session-details"));
+
+    if (sessionDetails) {
+      const { session, term, grade } = sessionDetails;
+      setResInfo({ session, term, grade, name: "", age: "", sex: "male" });
+    }
+
+    setStep(0);
+  };
+  return (
+    <>
+      <div className="row justify-content-center">
+        <div className="order-xl-1 col-xl-8">
+          <div className="bg-secondary shadow card">
+            <div className="bg-white border-0 card-header">
+              <div className="align-items-center justify-content-between row">
+                <div className="text-md text-right col-12">
+                  <button className="btn btn-danger btn-sm" onClick={onNew}>
+                    New
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {step === 0 ? (
+        <Main
+          onSaveInfo={onSaveInfo}
+          resInfo={resInfo}
+          onChange={onChange}
+          onProceed={onProceed}
+        />
+      ) : step === 1 ? (
+        <Grader
+          data={resultData}
+          setResStep={setStep}
+          setResultData={setResultData}
+        />
+      ) : step === 2 ? (
+        <OtherInfo
+          data={resultData}
+          setResStep={setStep}
+          setResultData={setResultData}
+        />
+      ) : step === 3 ? (
+        <AffectiveDomain
+          data={resultData}
+          setResStep={setStep}
+          setResultData={setResultData}
+        />
+      ) : step === 4 ? (
+        <Psychomotor
+          data={resultData}
+          setResStep={setStep}
+          setResultData={setResultData}
+        />
+      ) : (
+        <Check
+          data={resultData}
+          setResStep={setStep}
+          setResultData={setResultData}
+        />
+      )}
+    </>
   );
 }
 
