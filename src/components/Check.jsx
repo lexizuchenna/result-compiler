@@ -248,7 +248,7 @@ function Check({ data, setResStep }) {
                         className="my-4 btn btn-primary"
                         onClick={onFinish}
                       >
-                        Print
+                        Preview
                       </button>
                     </div>
                   </div>

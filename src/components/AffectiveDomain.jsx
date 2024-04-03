@@ -45,15 +45,15 @@ function AffectiveDomain({ data, setResStep, setResultData }) {
   };
 
   return (
-    <div class="row justify-content-center">
-      <div class="order-xl-1 col-xl-8">
-        <div class="bg-secondary shadow card">
-          <div class="bg-white border-0 card-header">
-            <div class="align-items-center row">
-              <div class="text-left text-md col-6">
+    <div className="row justify-content-center">
+      <div className="order-xl-1 col-xl-8">
+        <div className="bg-secondary shadow card">
+          <div className="bg-white border-0 card-header">
+            <div className="align-items-center row">
+              <div className="text-left text-md col-6">
                 <button
                   type="button"
-                  class="btn btn-dark btn-md"
+                  className="btn btn-dark btn-md"
                   onClick={onBack}
                 >
                   Back
@@ -61,33 +61,35 @@ function AffectiveDomain({ data, setResStep, setResultData }) {
               </div>
             </div>
           </div>
-          <div class="card-body">
-            <form class="">
-              <h6 class="heading-small text-muted mb-4">Result Details</h6>
-              <div class="pl-lg-4">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="mb-3">
-                      <label class="form-control-label" for="name">
+          <div className="card-body">
+            <form className="">
+              <h6 className="heading-small text-muted mb-4">Result Details</h6>
+              <div className="pl-lg-4">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="mb-3">
+                      <label className="form-control-label" htmlFor="name">
                         Name
                       </label>
                       <input
                         disabled
                         type="text"
-                        class="form-control-alternative form-control"
+                        className="form-control-alternative form-control"
                         value={data.name}
                       />
                     </div>
                   </div>
                 </div>
               </div>
-              <hr class="my-4" />
-              <h6 class="heading-small text-muted mb-4">Affective domain</h6>
-              <div class="pl-lg-4">
-                <div class="row">
+              <hr className="my-4" />
+              <h6 className="heading-small text-muted mb-4">
+                Affective domain
+              </h6>
+              <div className="pl-lg-4">
+                <div className="row">
                   {data.aDomain.map((dom) => (
-                    <div class="col-6">
-                      <div class="mb-3">
+                    <div className="col-6" key={dom.name}>
+                      <div className="mb-3">
                         <label className="text-sm">{dom.name}</label>
                         <select
                           name={dom.name}
@@ -107,11 +109,11 @@ function AffectiveDomain({ data, setResStep, setResultData }) {
                       </div>
                     </div>
                   ))}
-                  <div class="col-sm-12">
-                    <div class="text-center">
+                  <div className="col-sm-12">
+                    <div className="text-center">
                       <button
                         type="button"
-                        class="my-4 btn btn-primary"
+                        className="my-4 btn btn-primary"
                         onClick={onNext}
                       >
                         Next

@@ -1,6 +1,14 @@
 import { useLocation } from "react-router-dom";
 
-function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
+function Main({
+  resInfo,
+  onChange,
+  onSaveInfo,
+  onProceed,
+  subjects,
+  onAddSub,
+  useSub,
+}) {
   const { pathname } = useLocation();
 
   const grades = [
@@ -89,20 +97,45 @@ function Main({ resInfo, onChange, onSaveInfo, onProceed }) {
                       </select>
                     </div>
                   </div>
+
                   {pathname.includes("/edit-result") ? (
                     ""
                   ) : (
-                    <div className="col-sm-12">
-                      <div className="text-center">
-                        <button
-                          type="button"
-                          className="my-4 btn btn-primary"
-                          onClick={onSaveInfo}
-                        >
-                          Save
-                        </button>
+                    <>
+                      <div className="row">
+                        {subjects.map((subject, index) => (
+                          <div key={index} className="col-sm-4 col-6">
+                            <div className="custom-control custom-control-alternative custom-checkbox mb-3">
+                              <input
+                                className="custom-control-input"
+                                type="checkbox"
+                                name={subject}
+                                id={subject}
+                                checked={useSub.find((sub) => sub === subject)}
+                                onChange={onAddSub}
+                              />
+                              <label
+                                className="custom-control-label"
+                                htmlFor={subject}
+                              >
+                                {subject}
+                              </label>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    </div>
+                      <div className="col-sm-12">
+                        <div className="text-center">
+                          <button
+                            type="button"
+                            className="my-4 btn btn-primary"
+                            onClick={onSaveInfo}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>

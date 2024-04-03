@@ -17,6 +17,7 @@ function CreateResult() {
     age: "",
     sex: "male",
   });
+  const [useSub, setUseSub] = useState([]);
   const [id, setId] = useState(generateUUID());
 
   const [step, setStep] = useState(0);
@@ -47,10 +48,26 @@ function CreateResult() {
     const sessionDetails = JSON.parse(localStorage.getItem("session-details"));
 
     if (sessionDetails) {
-      const { session, term, grade } = sessionDetails;
+      const { session, term, grade, useSub } = sessionDetails;
+      if (useSub && useSub.length > 0) setUseSub(useSub);
       setResInfo((prev) => ({ ...prev, session, term, grade }));
     }
   }, []);
+
+  const onAddSub = (e) => {
+    const { name } = e.target;
+    const index = useSub.findIndex((sub) => sub === name);
+    if (e.target.checked) {
+      if (index === -1) {
+        useSub.push(name);
+      }
+    } else {
+      if (index !== -1) {
+        const newSub = useSub.filter((sub) => sub !== name);
+        setUseSub(newSub);
+      }
+    }
+  };
 
   function generateUUID() {
     const s4 = () =>
@@ -70,7 +87,7 @@ function CreateResult() {
       return enqueueSnackbar("Fill record", { variant: "error" });
     localStorage.setItem(
       "session-details",
-      JSON.stringify({ session, term, grade })
+      JSON.stringify({ session, term, grade, useSub })
     );
     return enqueueSnackbar("Success", { variant: "success" });
   };
@@ -79,7 +96,7 @@ function CreateResult() {
     if (Object.values(resInfo).includes(""))
       return enqueueSnackbar("Fill all record", { variant: "error" });
 
-    const subjects = gradeO_F.map((subject) => ({
+    const subjects = useSub.map((subject) => ({
       name: subject,
       test1: 0,
       test2: 0,
@@ -122,6 +139,12 @@ function CreateResult() {
         { name: "Sports and Games", value: "S" },
       ],
     };
+
+    if (resInfo.term === "3rd") {
+      data.firstAve = "";
+      data.secondAve = "";
+      data.thirdAve = "";
+    }
 
     setResultData(data);
 
@@ -183,6 +206,9 @@ function CreateResult() {
           resInfo={resInfo}
           onChange={onChange}
           onProceed={onProceed}
+          subjects={gradeO_F}
+          onAddSub={onAddSub}
+          useSub={useSub}
         />
       ) : step === 1 ? (
         <Grader

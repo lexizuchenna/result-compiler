@@ -21,6 +21,16 @@ function OtherInfo({ data, setResStep, setResultData }) {
     setResultData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const getTotal = (subject) => {
+    return +subject.test1 + +subject.test2 + +subject.project + +subject.exam;
+  };
+
+  const getChildAverage = () => {
+    const total = data?.subjects?.reduce((acc, sub) => getTotal(sub) + acc, 0);
+
+    return (total / result?.subjects?.length).toFixed(2);
+  };
+
   const comments = [
     "VERY GOOD",
     "REMARKABLE",
@@ -34,15 +44,15 @@ function OtherInfo({ data, setResStep, setResultData }) {
   ];
 
   return (
-    <div class="row justify-content-center">
-      <div class="order-xl-1 col-xl-8">
-        <div class="bg-secondary shadow card">
-          <div class="bg-white border-0 card-header">
-            <div class="align-items-center row">
-              <div class="text-left text-md col-6">
+    <div className="row justify-content-center">
+      <div className="order-xl-1 col-xl-8">
+        <div className="bg-secondary shadow card">
+          <div className="bg-white border-0 card-header">
+            <div className="align-items-center row">
+              <div className="text-left text-md col-6">
                 <button
                   type="button"
-                  class="btn btn-dark btn-md"
+                  className="btn btn-dark btn-md"
                   onClick={onBack}
                 >
                   Back
@@ -50,63 +60,65 @@ function OtherInfo({ data, setResStep, setResultData }) {
               </div>
             </div>
           </div>
-          <div class="card-body">
-            <form class="">
-              <h6 class="heading-small text-muted mb-4">Result Details</h6>
-              <div class="pl-lg-4">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="mb-3">
-                      <label class="form-control-label" for="name">
+          <div className="card-body">
+            <form className="">
+              <h6 className="heading-small text-muted mb-4">Result Details</h6>
+              <div className="pl-lg-4">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="mb-3">
+                      <label className="form-control-label" htmlFor="name">
                         Name
                       </label>
                       <input
                         disabled
                         type="text"
-                        class="form-control-alternative form-control"
+                        className="form-control-alternative form-control"
                         value={data.name}
                       />
                     </div>
                   </div>
                 </div>
               </div>
-              <hr class="my-4" />
-              <h6 class="heading-small text-muted mb-4">Other result info</h6>
-              <div class="pl-lg-4">
-                <div class="row">
-                  <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                      <label class="text-sm">No of pupils</label>
-                      <div class="input-group-alternative input-group">
+              <hr className="my-4" />
+              <h6 className="heading-small text-muted mb-4">
+                Other result info
+              </h6>
+              <div className="pl-lg-4">
+                <div className="row">
+                  <div className="col-12 col-sm-6">
+                    <div className="mb-3">
+                      <label className="text-sm">No of pupils</label>
+                      <div className="input-group-alternative input-group">
                         <input
                           placeholder="No  of pupils"
                           name="numberOfPupils"
                           type="number"
-                          class="form-control"
+                          className="form-control"
                           value={data.numberOfPupils}
                           onChange={onChange}
                         />
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                      <label class="text-sm">Next Term Begins</label>
-                      <div class="input-group-alternative input-group">
+                  <div className="col-12 col-sm-6">
+                    <div className="mb-3">
+                      <label className="text-sm">Next Term Begins</label>
+                      <div className="input-group-alternative input-group">
                         <input
                           placeholder="Next TermB egins"
                           name="nextTermBegins"
                           type="date"
-                          class="form-control"
+                          className="form-control"
                           value={data.nextTermBegins}
                           onChange={onChange}
                         />
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                      <label class="text-sm">Class Teacher Comment</label>
+                  <div className="col-12 col-sm-6">
+                    <div className="mb-3">
+                      <label className="text-sm">Class Teacher Comment</label>
 
                       <select
                         name="cTeacherComment"
@@ -126,9 +138,9 @@ function OtherInfo({ data, setResStep, setResultData }) {
                       </select>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                      <label class="text-sm">Head Teacher Comment</label>
+                  <div className="col-12 col-sm-6">
+                    <div className="mb-3">
+                      <label className="text-sm">Head Teacher Comment</label>
                       <select
                         name="hTeacherComment"
                         value={data.hTeacherComment}
@@ -147,21 +159,70 @@ function OtherInfo({ data, setResStep, setResultData }) {
                       </select>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                      <label class="text-sm">Teacher</label>
-                      <div class="input-group-alternative input-group">
+                  <div className="col-12 col-sm-6">
+                    <div className="mb-3">
+                      <label className="text-sm">Teacher</label>
+                      <div className="input-group-alternative input-group">
                         <input
                           placeholder="Teacher"
                           name="teacher"
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           value={data.teacher}
                           onChange={onChange}
                         />
                       </div>
                     </div>
                   </div>
+                  {data.term === "3rd" && (
+                    <>
+                      <div className="col-12 col-sm-6">
+                        <div className="mb-3">
+                          <label className="text-sm">1st Term Ave</label>
+                          <div className="input-group-alternative input-group">
+                            <input
+                              placeholder="First Term Average"
+                              name="firstAve"
+                              type="text"
+                              className="form-control"
+                              value={data.firstAve}
+                              onChange={onChange}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-12 col-sm-6">
+                        <div className="mb-3">
+                          <label className="text-sm">2nd Term Ave</label>
+                          <div className="input-group-alternative input-group">
+                            <input
+                              placeholder="2nd Term Average"
+                              name="secondAve"
+                              type="text"
+                              className="form-control"
+                              value={data.secondAve}
+                              onChange={onChange}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-12 col-sm-6">
+                        <div className="mb-3">
+                          <label className="text-sm">3rd Term Ave</label>
+                          <div className="input-group-alternative input-group">
+                            <input
+                              placeholder="3rd Term Average"
+                              name="thirdAve"
+                              type="text"
+                              className="form-control"
+                              value={getChildAverage()}
+                              onChange={onChange}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                   <div className="col-sm-12">
                     <div className="text-center">
                       <button
